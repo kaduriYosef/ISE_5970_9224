@@ -20,17 +20,16 @@ public class Point {
      * Determines whether this Point object is equal to another object.
      * Two Point objects are considered equal if they have the same coordinates.
      *
-     * @param o the object to compare with this Point
+     * @param obj the object to compare with this Point
      * @return true if the objects are equal, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
-        return isZero(this.xyz.d1 - point.xyz.d1)
-                && isZero(this.xyz.d2 - point.xyz.d2)
-                && isZero(this.xyz.d3 - point.xyz.d3);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Point other)
+                && isZero(this.xyz.d1 - other.xyz.d1)
+                && isZero(this.xyz.d2 - other.xyz.d2)
+                && isZero(this.xyz.d3 - other.xyz.d3);
     }
 
     /**

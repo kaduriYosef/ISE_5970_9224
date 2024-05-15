@@ -12,7 +12,7 @@ import primitives.Vector;
  * system
  * @author Dan
  */
-public class Polygon extends Geometry {
+public class Polygon implements Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
@@ -81,5 +81,6 @@ public class Polygon extends Geometry {
 
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
+
 
 }

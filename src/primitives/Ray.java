@@ -36,15 +36,15 @@ public class Ray {
 
     /**
      * Returns true if the Ray object is equal to a given object.
-      * @param  o the object to compare with the Ray
+      * @param  obj the object to compare with the Ray
      * @return true if the Ray object is equal to the given object, false otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ray ray = (Ray) o;
-        return Objects.equals(head, ray.head) && Objects.equals(direction, ray.direction);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Ray other)
+                && head.equals(other.head)
+                && direction.equals(other.direction);
     }
 
 }
