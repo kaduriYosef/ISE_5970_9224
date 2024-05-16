@@ -60,7 +60,7 @@ public class Point {
      * Subtracts another point from this point and returns a new Vector object with the resulting coordinates.
      *
      * @param p the point to subtract from this point
-     * @return a new Vector object with the resulting coordinates
+     * @return new Vector object with the resulting coordinates
      */
     public Vector subtract(Point p) {
         if (this.equals(p)) {
