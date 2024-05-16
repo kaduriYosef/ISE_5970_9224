@@ -5,6 +5,19 @@ import static primitives.Util.isZero;
 public class Point {
     protected Double3 xyz;
 
+    public static final Double3 ZERO = new Double3(0, 0, 0);
+
+    /**
+     * Constructs a new Point object with the specified coordinates.
+     *
+     * @param x the x-coordinate of the point
+     * @param y the y-coordinate of the point
+     * @param z the z-coordinate of the point
+     */
+    public Point(double x, double y, double z) {
+        this.xyz = new Double3(x, y, z);
+    }
+
 
     /**
      * Constructs a new Point object with the specified coordinates.
