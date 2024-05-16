@@ -10,7 +10,7 @@ public final class Util {
    private Util() {}
 
    /** {@code double} data format in memory (bit level):<br>
-    * seee eeee eeee (1.)mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm<br>
+    * <br>
     * 1 bit sign, 11 bits exponent, 53 bits (52 stored) normalized mantissa<br>
     * the number is m+2^e where 1&lt;=m&lt;2<br>
     * NB: exponent is stored "normalized" (i.e. always positive by adding 1023)<br>
