@@ -15,6 +15,20 @@ public class Point {
         this.xyz = xyz;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    public Point(double x, double y, double z) {
+        this.xyz = new Double3(x, y, z);
+    }
+
+    /**
+     * Zero triad (0,0,0)
+     */
+    public static final Double3 ZERO = new Double3(0, 0, 0);
 
     /**
      * Determines whether this Point object is equal to another object.

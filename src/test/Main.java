@@ -3,6 +3,11 @@ package test;
 import static java.lang.System.out;
 
 import static primitives.Util.isZero;
+import primitives.Point;
+import primitives.Vector;
+import primitives.Double3;
+
+
 
 /**
  * Test program for the 1st stage
