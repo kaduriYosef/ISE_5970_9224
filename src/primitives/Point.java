@@ -5,7 +5,7 @@ import static primitives.Util.isZero;
 public class Point {
     protected Double3 xyz;
 
-    public static final Double3 ZERO = new Double3(0, 0, 0);
+    public final static Point ZERO = new Point(0, 0, 0);
 
     /**
      * Constructs a new Point object with the specified coordinates.
@@ -37,7 +37,8 @@ public class Point {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj)
+            return true;
         return (obj instanceof Point other)
                 && isZero(this.xyz.d1 - other.xyz.d1)
                 && isZero(this.xyz.d2 - other.xyz.d2)

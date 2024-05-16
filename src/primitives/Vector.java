@@ -12,12 +12,26 @@ public class Vector extends Point {
      * @param d the {@link Double3} object that contains the x, y, and z coordinates of the vector
      */
     public Vector(Double3 d) {
+
         super(d);
+
     }
 
+    /**
+     * Constructs a new vector with the given x, y, and z coordinates.
+     *
+     * @param x the x coordinate of the vector
+     * @param y the y coordinate of the vector
+     * @param z the z coordinate of the vector
+     */
     public Vector(double x, double y, double z) {
-        this(new Double3(x,y,z));
+        super(x, y, z);
+
+        if (super.equals(new Vector(Double3.ZERO))) {
+            throw new IllegalArgumentException("ERROR: vector cannot be zero");
+        }
     }
+
 
     /**
      * Returns true if the Vector object is equal to a given object.
@@ -27,7 +41,7 @@ public class Vector extends Point {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Vector && super.equals(obj);
+        return super.equals(obj);
 
     }
 
@@ -40,7 +54,6 @@ public class Vector extends Point {
     public String toString() {
         return super.toString();
     }
-
 
 
     /**
@@ -64,14 +77,18 @@ public class Vector extends Point {
     /**
      * Adds a vector to this vector and returns the result as a new vector.
      *
-     * @param v the vector to add to this vector
+     * @param p the vector to add to this vector
      * @return the sum of this vector and the given vector as a new vector
      */
     @Override
-    public Vector add(Vector v) {
-        return new Vector(this.xyz.add(v.xyz));
-    }
+    public Vector add(Vector p) {
 
+        Vector v = new Vector(this.xyz.add(p.xyz));
+        if (v.equals(new Vector(Double3.ZERO))) {
+            throw new IllegalArgumentException("ERROR: Addition of vectors cannot give a zero vector");
+        }
+        return v;
+    }
 
 
     /**
@@ -93,7 +110,7 @@ public class Vector extends Point {
     public Vector crossProduct(Vector v) {
         return new Vector(xyz.d2 * v.xyz.d3 - v.xyz.d2 * xyz.d3,
                 xyz.d3 * v.xyz.d1 - xyz.d1 * v.xyz.d3,
-                xyz.d1 * v.xyz.d2 - xyz.d3 * v.xyz.d1);
+                xyz.d1 * v.xyz.d2 - xyz.d2 * v.xyz.d1);
     }
 
     /**
