@@ -102,6 +102,16 @@ public class Vector extends Point {
     }
 
     /**
+     * Scales this vector by a given factor and returns the result as a new vector.
+     *
+     * @param d the scaling factor
+     * @return the scaled vector as a new vector
+     */
+    public Vector scale(double d) {
+        return new Vector(this.xyz.scale(d));
+    }
+
+    /**
      * Calculates the cross product of this vector and another vector.
      *
      * @param v the other vector
