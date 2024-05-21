@@ -25,14 +25,6 @@ public class Sphere extends RadialGeometry {
         this.center = center;
     }
 
-    /**
-     * This method is required because it's inherited from the Geometry interface,
-     * but it's not currently implemented for spheres. It might need to be overridden
-     * in a subclass to provide meaningful normal vector calculation for spheres.
-     *
-     * @param p - The point on the sphere (might not be used in the current implementation).
-     * @return  Currently returns null, indicating this method needs implementation.
-     */
     @Override
     public Vector getNormal(Point p) {
         return null;

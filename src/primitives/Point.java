@@ -40,9 +40,7 @@ public class Point {
         if (this == obj)
             return true;
         return (obj instanceof Point other)
-                && isZero(this.xyz.d1 - other.xyz.d1)
-                && isZero(this.xyz.d2 - other.xyz.d2)
-                && isZero(this.xyz.d3 - other.xyz.d3);
+                && this.xyz.equals(other.xyz);
     }
 
     /**

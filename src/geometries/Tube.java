@@ -26,14 +26,6 @@ public class Tube extends RadialGeometry {
         this.axis = axis;
     }
 
-    /**
-     * This method is required because it's inherited from the Geometry interface,
-     * but it's not currently implemented for tubes. It might need to be overridden
-     * in a subclass to provide meaningful normal vector calculation for points on the tube's surface.
-     *
-     * @param p - The point on the tube (might not be used in the current implementation).
-     * @return  Currently returns null, indicating this method needs implementation.
-     */
     @Override
     public Vector getNormal(Point p) {
         return null;

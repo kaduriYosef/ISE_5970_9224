@@ -21,14 +21,6 @@ public class Cylinder extends Tube {
         this.height = height;
     }
 
-    /**
-     * This method is required because it's inherited from the Geometry interface.
-     * The current implementation simply returns null, but it should be overridden to
-     * calculate and return the normal vector to the surface of the cylinder at a specific point (p).
-     *
-     * @param p - The point on the cylinder where the normal vector is requested.
-     * @return The normal vector to the surface of the cylinder at point p. (needs implementation)
-     */
     @Override
     public Vector getNormal(Point p) {
         // The normal vector will depend on whether the point is on the curved surface or the top/bottom cap.

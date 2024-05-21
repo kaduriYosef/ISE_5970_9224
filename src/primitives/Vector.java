@@ -12,9 +12,9 @@ public class Vector extends Point {
      * @param d the {@link Double3} object that contains the x, y, and z coordinates of the vector
      */
     public Vector(Double3 d) {
-
         super(d);
-
+        if (Double3.ZERO.equals(this.xyz))
+            throw new IllegalArgumentException("ERROR: vector cannot be zero");
     }
 
     /**
@@ -27,9 +27,8 @@ public class Vector extends Point {
     public Vector(double x, double y, double z) {
         super(x, y, z);
 
-        if (super.equals(new Vector(Double3.ZERO))) {
+        if (Double3.ZERO.equals(this.xyz))
             throw new IllegalArgumentException("ERROR: vector cannot be zero");
-        }
     }
 
 
@@ -41,8 +40,10 @@ public class Vector extends Point {
      */
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
-
+        if (this == obj)
+            return true;
+        return obj instanceof Vector
+                && super.equals(obj);
     }
 
     /**
@@ -82,12 +83,7 @@ public class Vector extends Point {
      */
     @Override
     public Vector add(Vector p) {
-
-        Vector v = new Vector(this.xyz.add(p.xyz));
-        if (v.equals(new Vector(Double3.ZERO))) {
-            throw new IllegalArgumentException("ERROR: Addition of vectors cannot give a zero vector");
-        }
-        return v;
+        return new Vector(this.xyz.add(p.xyz));
     }
 
 
