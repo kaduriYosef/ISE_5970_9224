@@ -60,6 +60,7 @@ public class Plane implements Geometry {
      *
      * @return The normalized normal vector to the plane.
      */
+    @Override
     public Vector getNormal() {
         return this.normal.normalize();
     }
