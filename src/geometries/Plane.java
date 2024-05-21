@@ -44,13 +44,13 @@ public class Plane implements Geometry {
         Vector v2 = x.subtract(z);
         normal = v1.crossProduct(v2).normalize();
     }
-
     /**
      * Gets the normalized normal vector to the plane at a specific point.
      *
      * @param p - The point on the plane (usually ignored).
      * @return The normalized normal vector to the plane.
      */
+    @Override
     public Vector getNormal(Point p) {
         return this.normal.normalize();
     }
@@ -60,6 +60,7 @@ public class Plane implements Geometry {
      *
      * @return The normalized normal vector to the plane.
      */
+    @Override
     public Vector getNormal() {
         return this.normal.normalize();
     }
