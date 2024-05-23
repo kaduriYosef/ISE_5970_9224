@@ -46,7 +46,7 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point p) {
         return this.normal.normalize();
-    }
+    };
 
     /**
      * Gets the normalized normal vector to the plane.
