@@ -92,5 +92,4 @@ public class Polygon implements Geometry {
         return plane.getNormal();
     }
 
-
 }
