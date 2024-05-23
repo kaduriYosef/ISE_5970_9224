@@ -47,4 +47,31 @@ public class Ray {
                 && direction.equals(other.direction);
     }
 
+    /**
+     Returns the starting point of the ray.
+     @return The starting point of the ray.
+     */
+    public Point getHead() {
+        return head;
+    }
+
+    /**
+     Returns the direction vector of the ray.
+     @return The direction vector of the ray.
+     */
+    public Vector getDir() {
+        return direction;
+    }
+
+    /**
+
+     Computes the point on the ray at a given parameter t.
+     @param t The parameter value determining the point along the ray.
+     @return The point on the ray at parameter t.
+     */
+    public Point getPoint(double t)
+    {
+        return head.add(direction.scale(t));
+    }
+
 }

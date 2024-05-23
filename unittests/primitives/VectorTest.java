@@ -26,6 +26,7 @@ class VectorTest {
         assertTrue(v2.equals(new Vector(-1, -2, -3)), "ERROR: the func Vector.equals not work correctly in negative vectors");
     }
 
+
     /**
      * Test method for {@link primitives.Vector#add(Vector)} func}
      */
@@ -105,6 +106,9 @@ class VectorTest {
         assertEquals(new Vector(2, 4, 6), v1.scale(2), "ERROR: the func Vector.scale does not work on positive scalar");
         // Tests a scale function for  positive scalar
         assertEquals(new Vector(-2, -4, -6), v1.scale(-2), "ERROR: the func Vector.scale does not work on positive scalar");
+        // =============== Boundary Values Tests ==================
+        // TC11: test zero vector from dot-product of parallel vectors
+        assertThrows(IllegalArgumentException.class, () -> v1.scale(0), "ERROR: the func Vector.scale does not work on zero number");
     }
 
     /**
@@ -135,7 +139,7 @@ class VectorTest {
      * Test method for {@link Vector#normalize()} func}
      */
     @Test
-    void normalize() {
+    void testNormalize() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-1, -2, -3);
 
@@ -144,5 +148,35 @@ class VectorTest {
         assertEquals(new Vector(1 / 3.7416573867739413, 2 / 3.7416573867739413, 3 / 3.7416573867739413), v1.normalize(), "ERROR: the func Vector.normalize does not work on negative vectors");
         // Tests a normalize function for two negative Vectors
         assertEquals(new Vector(-1 / 3.7416573867739413, -2 / 3.7416573867739413, -3 / 3.7416573867739413), v2.normalize(), "ERROR: the func Vector.normalize does not work on negative vectors");
+    }
+    /**
+     * Test method for {@link Vector#subtract(Point)} ()} func}
+     */
+    @Test
+    void testSubtract() {
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = new Vector(-1, -2, -3);
+
+        // ============ Equivalence Partitions Tests ==============
+        // Tests an subtract function for two positive numbers
+        assertEquals(new Vector(2, 4, 6), v1.subtract(v2), "ERROR: the func Vector.subtract does not work on argument negative number");
+        // Tests an add function for two negative numbers
+        assertEquals(new Vector(-2, -4, -6), v2.subtract(v1), "ERROR: the func Vector.subtract does not work on argument positive numbers");
+
+        // =============== Boundary Values Tests ==================
+        // Tests an add function checks for the zero vector result
+        assertThrows(IllegalArgumentException.class, () -> v1.subtract(v1), "ERROR: the func Vector.subtract does not work on two numbers whose result is the zero vector");
+
+    }
+
+    @Test
+    void testConstructor() {
+
+        // =============== Boundary Values Tests ==================
+        // Tests a constructor Vector(x,y,z) for the zero vector result
+        assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0), "ERROR: the constructor Vector(x,y,z) does not work on zero vector");
+        // Tests a constructor Vector(double3) for the zero vector result
+        assertThrows(IllegalArgumentException.class, () -> new Vector(new Double3(0)), "ERROR: the constructor Vector(double3) does not work on zero vector");
+
     }
 }
