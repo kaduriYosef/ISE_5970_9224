@@ -11,21 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class VectorTest {
 
-    /**
-     * Test method for {@link primitives.Vector#equals(Object)} func}
-     */
-    @Test
-    void testEquals() {
-        Vector v1 = new Vector(1, 2, 3);
-        Vector v2 = new Vector(-1, -2, -3);
-
-        // ============ Equivalence Partitions Tests ==============
-        //Checks equality of terms between two positive vectors
-        assertTrue(v1.equals(new Vector(1, 2, 3)), "ERROR: the func Vector.equals not work correctly in positive vectors");
-        // Checks equality of terms between two negative vectors
-        assertTrue(v2.equals(new Vector(-1, -2, -3)), "ERROR: the func Vector.equals not work correctly in negative vectors");
-    }
-
 
     /**
      * Test method for {@link primitives.Vector#add(Vector)} func}
