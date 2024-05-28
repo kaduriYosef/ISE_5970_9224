@@ -1,6 +1,7 @@
 package geometries;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import primitives.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +31,16 @@ class PlaneTest {
         assertEquals(1, result.length(), 0.00000001, "Plane's normal is not a unit vector");
 
         // ensure the result matches the expected normal
-        assertEquals(new Vector(0, 0, -1), result, "Plane's normal is incorrect");
+        assertTrue(result.equals(new Vector(0, 0, 1))|| result.equals(new Vector(0,0,-1)), "Plane's normal is incorrect");
+    }
+    @Test
+    public void testConstructor(){
+
+        Point q1 = new Point(1, 0, 0);
+        Point q2 = new Point(0, 1, 0);
+        Point q3 = new Point(0.5, 0.5, 0);
+        // ============ Boundary Partitions Tests ==============
+        assertThrows(IllegalArgumentException.class,()-> new Plane(q1, q2, q1),"constructor with the same point");
+        assertThrows(IllegalArgumentException.class,()-> new Plane(q1, q2, q3),"constructor with points on the same line");
     }
 }

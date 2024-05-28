@@ -19,9 +19,9 @@ public class Tube extends RadialGeometry {
      * Constructor that creates a tube with a given radius and central axis.
      *
      * @param radius - The radius of the tube (positive value expected).
-     * @param axis - The central axis of the tube represented by a Ray object.
+     * @param axis   - The central axis of the tube represented by a Ray object.
      */
-    public Tube( Ray axis,double radius) {
+    public Tube(Ray axis, double radius) {
         super(radius);  // Call the parent class constructor to initialize the radius
         this.axis = axis;
     }
@@ -40,7 +40,6 @@ public class Tube extends RadialGeometry {
         Point o = axis.getPoint(d);
         //We will return the vector from point O from place to point I gave normalized
 
-        Vector u = p.subtract(o);
-        return u.normalize();
+        return p.subtract(o).normalize();
     }
 }

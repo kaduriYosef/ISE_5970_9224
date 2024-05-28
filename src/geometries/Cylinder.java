@@ -27,7 +27,7 @@ public class Cylinder extends Tube {
     public Vector getNormal(Point p) {
 
         if (super.axis.getHead().equals(p)) {
-            return super.axis.getDir().normalize();
+            return super.axis.getDir();
         }
 
         //Calculate the vector from the point P0 to the point we got
@@ -35,18 +35,19 @@ public class Cylinder extends Tube {
         //We will do a scalar multiplication between the vector of the line and the vector we got.
         // And because the vector of the line is normalized, the result will be the projection of
         // our vector on the line
-        double d = alignZero(v.dotProduct(axis.getDir()));
+        double d = alignZero(Math.abs(v.dotProduct(axis.getDir())));
+        ;
 
-        if (d <= 0) {
-            return super.axis.getDir().normalize();//.scale(-1)
+        if (d == 0||alignZero(d - height)==0){
+            return super.axis.getDir();
         }
 
         if (alignZero(height - d) > 0) {
             return super.getNormal(p);
         }
 
-        if (d >= height) {
-            return super.axis.getDir().normalize();
+        if (alignZero(d - height)>0) {
+            throw new IllegalArgumentException("this point it's outside the cylinder");
         }
 
         // If none of the above conditions are true, then the point is on the lateral surface of the cylinder.
