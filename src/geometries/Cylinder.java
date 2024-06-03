@@ -5,7 +5,6 @@ import primitives.Vector;
 import primitives.Ray;
 
 import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
 
 /**
  * This class represents a cylinder geometry, likely inheriting from a more general Tube class.
@@ -38,13 +37,16 @@ public class Cylinder extends Tube {
         // our vector on the line
         double d = alignZero(Math.abs(v.dotProduct(axis.getDir())));
 
-
-        if (isZero(d) || alignZero(d - height) == 0) {
+        if (d == 0 || alignZero(d - height) == 0) {
             return super.axis.getDir();
         }
 
         if (alignZero(height - d) > 0) {
             return super.getNormal(p);
+        }
+
+        if (alignZero(d - height) > 0) {
+            throw new IllegalArgumentException("this point it's outside the cylinder");
         }
 
         // If none of the above conditions are true, then the point is on the lateral surface of the cylinder.

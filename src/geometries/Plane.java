@@ -2,6 +2,12 @@ package geometries;
 
 import primitives.Vector;
 import primitives.Point;
+import primitives.Ray;
+
+import static primitives.Util.isZero;
+import static primitives.Util.alignZero;
+
+import java.util.List;
 
 /**
  * This class represents a geometric plane in 3D space.
@@ -21,7 +27,7 @@ public class Plane implements Geometry {
     /**
      * Constructor that creates a plane from a point and a normal vector.
      *
-     * @param p - A point on the plane.
+     * @param p      - A point on the plane.
      * @param normal - The normal vector to the plane.
      */
     public Plane(Point p, Vector normal) {
@@ -46,7 +52,9 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point p) {
         return this.normal.normalize();
-    };
+    }
+
+    ;
 
     /**
      * Gets the normalized normal vector to the plane.
@@ -55,5 +63,31 @@ public class Plane implements Geometry {
      */
     public Vector getNormal() {
         return this.normal.normalize();
+    }
+
+    @Override
+    public List<Point> findIntsersections(Ray ray) {
+        List<Point> result = null;
+
+        // Get the plane's normal,
+        Vector n = getNormal();
+        // ray's direction vector,
+        Vector v = ray.getDir();
+        // and ray's starting point.
+        Point p0 = ray.getHead();
+        // Check if the ray is not parallel to the plane.
+        double nv = n.dotProduct(v);
+        if (!isZero(nv)) {
+            // Calculate the intersection point between the ray and the plane.
+            double t = alignZero(n.dotProduct(p.subtract(p0)) / nv);
+            // Check if the intersection point is in front of the starting point of the ray.
+            if (t > 0) {
+                // Calculate the intersection point coordinates and return it.
+                Point intersect = p0.add(v.scale(t));
+                result = List.of(intersect);
+            }
+        }
+        // Return the intersection point or null if no intersection exists.
+        return result;
     }
 }

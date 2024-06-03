@@ -6,7 +6,7 @@ import primitives.Vector;
 /**
  * This interface defines a contract for geometric objects.
  */
-public interface Geometry {
+public interface Geometry extends Intersectable {
 
     /**
      * This method is mandatory for any class implementing the Geometry interface.
