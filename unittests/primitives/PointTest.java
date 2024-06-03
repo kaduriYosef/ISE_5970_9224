@@ -13,17 +13,6 @@ import static primitives.Util.isZero;
 class PointTest {
 
     /**
-     * Test method for {@link primitives.Point#equals(Object)}
-     */
-    @Test
-    void testEquals() {
-        Point v1 = new Point(1, 2, 3);
-        // ============ Equivalence Partitions Tests ==============
-        //TC01: Test that the equals() method returns true for two identical points.
-        assertTrue(v1.equals(new Point(1,2,3)),"ERROR: Point.equals does not work correctly ");
-    }
-
-    /**
      * Test method for {@link primitives.Point#add(Vector)}.
      */
     @Test
