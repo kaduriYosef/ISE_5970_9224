@@ -36,9 +36,8 @@ public class Cylinder extends Tube {
         // And because the vector of the line is normalized, the result will be the projection of
         // our vector on the line
         double d = alignZero(Math.abs(v.dotProduct(axis.getDir())));
-        ;
 
-        if (d == 0||alignZero(d - height)==0){
+        if (d == 0 || alignZero(d - height) == 0) {
             return super.axis.getDir();
         }
 
@@ -46,7 +45,7 @@ public class Cylinder extends Tube {
             return super.getNormal(p);
         }
 
-        if (alignZero(d - height)>0) {
+        if (alignZero(d - height) > 0) {
             throw new IllegalArgumentException("this point it's outside the cylinder");
         }
 
