@@ -30,4 +30,5 @@ public class Sphere extends RadialGeometry {
         Vector v = p.subtract(center);//There may be an exception here that the vector is zero
         return v.normalize();
     }
+
 }
