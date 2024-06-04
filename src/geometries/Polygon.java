@@ -1,5 +1,6 @@
 package geometries;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -94,7 +95,37 @@ public class Polygon implements Geometry {
     }
 
     @Override
-    public List<Point> findIntsersections(Ray ray) {
-        return null;
+    public List<Point> findIntersections(Ray ray) {
+        // Step 1: check if the ray intersects the plane of the polygon
+        List<Point> planeIntersections = plane.findIntersections(ray);
+
+        if (planeIntersections == null) {
+            return List.of(); // no intersection
+        }
+        Point intersectionPoint = planeIntersections.get(0);
+        LinkedList<Vector> vectors = new LinkedList<>();
+
+        Point prePoint = vertices.get(vertices.size() - 1);
+        try {
+            for (Point point : vertices) {
+                vectors.add(point.subtract(prePoint).crossProduct(prePoint.subtract(intersectionPoint)));
+                prePoint = point;
+            }
+
+            Vector preVector = vectors.get(vectors.size()-1);
+            for (Vector vector:vectors) {
+                if(vector.dotProduct(preVector)<0){
+                    return null;
+                }
+                preVector = vector;
+            }
+        }
+        catch (IllegalArgumentException exception)
+        {
+            return null;
+        }
+        return List.of(intersectionPoint);
     }
+
+
 }

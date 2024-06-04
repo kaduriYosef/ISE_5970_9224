@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Testing Polygons
@@ -90,6 +94,88 @@ public class PolygonTest {
         for (int i = 0; i < 3; ++i)
             assertEquals(0d, result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1])), DELTA,
                     "Polygon's normal is not orthogonal to one of the edges");
+    }
+
+    @Test
+    void findIntersections() {
+
+        Point[] pts = { new Point(0, 0, 3), new Point(-3, 3, 3), new Point(0, 3, 0), new Point(3, 0, 0) };
+        Polygon pol = new Polygon(pts);
+
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray intersects the polygon at a point
+        Point p = new Point(-1, 0, 0);
+        Vector v = new Vector(1, 1, 2);
+        Ray ray = new Ray(p, v);
+
+        List<Point> expected = new ArrayList<>();
+        expected.add(new Point(0, 1, 2));
+
+        List<Point> result = pol.findIntersections(ray);
+
+        assertEquals(expected, result, "Failed to find intersection point");
+
+        // TC02: Ray does not intersect the polygon, goes beyond max distance
+        p = new Point(-1, 0, 0);
+        v = new Vector(1, 1, 8);
+        ray = new Ray(p, v);
+
+        expected = new ArrayList<>();
+        expected.clear();
+
+        result = pol.findIntersections(ray);
+
+        assertNull(result, "Failed to find intersection point");
+
+        // =============== Boundary Values Tests ==================
+        // TC11: Ray misses the polygon completely
+        p = new Point(-1, -1, 0);
+        v = new Vector(1, 1, 8);
+        ray = new Ray(p, v);
+
+        expected = new ArrayList<>();
+        expected.clear();
+
+        result = pol.findIntersections(ray);
+
+        assertNull(result, "Failed to find intersection point");
+
+        // TC12: Ray is parallel to the polygon and does not intersect
+        p = new Point(-1, 0, 0);
+        v = new Vector(2, -1, 0);
+        ray = new Ray(p, v);
+
+        expected = new ArrayList<>();
+        expected.clear();
+
+        result = pol.findIntersections(ray);
+
+        assertNull(result, "Failed to find intersection point");
+
+        // TC13: Ray is parallel to the polygon but starts outside the plane of the polygon
+        p = new Point(-1, 0, 0);
+        v = new Vector(3, 3, 0);
+        ray = new Ray(p, v);
+
+        expected = new ArrayList<>();
+        expected.clear();
+
+        result = pol.findIntersections(ray);
+
+        assertNull(result, "Failed to find intersection point");
+
+        // TC14: Ray intersects the plane but outside the polygon boundaries
+        p = new Point(-1, 0, 0);
+        v = new Vector(1, 0, 3);
+        ray = new Ray(p, v);
+
+        expected = new ArrayList<>();
+        expected.clear();
+
+        result = pol.findIntersections(ray);
+
+        assertNull(result, "Failed to find intersection point");
+
     }
 
 }
