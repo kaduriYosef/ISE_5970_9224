@@ -6,6 +6,6 @@ import primitives.Point;
 import java.util.List;
 
 public interface Intersectable {
-    List<Point> findIntsersections(Ray ray);
+    List<Point> findIntersections(Ray ray);
 
 }
