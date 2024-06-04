@@ -99,13 +99,11 @@ public class PolygonTest {
     @Test
     void findIntersections() {
 
-        Point[] pts =
-                {  new Point(0, 0, 3)
-                        ,new Point(-3, 3, 3)
-                        ,new Point(0, 3, 0)
-                        ,new Point(3, 0, 0)  };
+        Point[] pts = { new Point(0, 0, 3), new Point(-3, 3, 3), new Point(0, 3, 0), new Point(3, 0, 0) };
         Polygon pol = new Polygon(pts);
 
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray intersects the polygon at a point
         Point p = new Point(-1, 0, 0);
         Vector v = new Vector(1, 1, 2);
         Ray ray = new Ray(p, v);
@@ -117,6 +115,7 @@ public class PolygonTest {
 
         assertEquals(expected, result, "Failed to find intersection point");
 
+        // TC02: Ray does not intersect the polygon, goes beyond max distance
         p = new Point(-1, 0, 0);
         v = new Vector(1, 1, 8);
         ray = new Ray(p, v);
@@ -128,6 +127,8 @@ public class PolygonTest {
 
         assertNull(result, "Failed to find intersection point");
 
+        // =============== Boundary Values Tests ==================
+        // TC11: Ray misses the polygon completely
         p = new Point(-1, -1, 0);
         v = new Vector(1, 1, 8);
         ray = new Ray(p, v);
@@ -139,6 +140,7 @@ public class PolygonTest {
 
         assertNull(result, "Failed to find intersection point");
 
+        // TC12: Ray is parallel to the polygon and does not intersect
         p = new Point(-1, 0, 0);
         v = new Vector(2, -1, 0);
         ray = new Ray(p, v);
@@ -150,6 +152,7 @@ public class PolygonTest {
 
         assertNull(result, "Failed to find intersection point");
 
+        // TC13: Ray is parallel to the polygon but starts outside the plane of the polygon
         p = new Point(-1, 0, 0);
         v = new Vector(3, 3, 0);
         ray = new Ray(p, v);
@@ -161,6 +164,7 @@ public class PolygonTest {
 
         assertNull(result, "Failed to find intersection point");
 
+        // TC14: Ray intersects the plane but outside the polygon boundaries
         p = new Point(-1, 0, 0);
         v = new Vector(1, 0, 3);
         ray = new Ray(p, v);
@@ -173,4 +177,5 @@ public class PolygonTest {
         assertNull(result, "Failed to find intersection point");
 
     }
+
 }

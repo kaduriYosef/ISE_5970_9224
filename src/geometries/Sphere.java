@@ -36,6 +36,7 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+
         Vector u = center.subtract(ray.getHead());
         double tm = u.dotProduct(ray.getDir());
         double dSquared = u.lengthSquared() - tm * tm;
