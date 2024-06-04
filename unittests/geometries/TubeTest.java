@@ -27,14 +27,14 @@ class TubeTest {
 
         // ============ Equivalence Partitions Tests ==============
 
-        // Test that the normal vector at a point on the surface of the sphere points
+        // TC01: Test that the normal vector at a point on the surface of the sphere points
         // outwards from the center of the sphere.
         assertEquals(new Vector(0, 1, 0).normalize(), tube.getNormal(pointOnSurface1), "GetNormal() test for point on surface");
 
 
         // =============== Boundary Values Tests ==================
 
-        // Test that an IllegalArgumentException is thrown when calling getNormal()
+        // TC11: Test that an IllegalArgumentException is thrown when calling getNormal()
         // with a point at the center of the sphere.
         assertThrows(IllegalArgumentException.class, () -> tube.getNormal(centerPoint), "GetNormal() test for center point");
     }

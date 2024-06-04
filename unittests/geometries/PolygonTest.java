@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Testing Polygons
+ *
  * @author Dan
  */
 public class PolygonTest {
@@ -23,7 +24,9 @@ public class PolygonTest {
      */
     private final double DELTA = 0.000001;
 
-    /** Test method for {@link geometries.Polygon#Polygon(primitives.Point...)}. */
+    /**
+     * Test method for {@link geometries.Polygon#Polygon(primitives.Point...)}.
+     */
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
@@ -53,31 +56,33 @@ public class PolygonTest {
 
         // =============== Boundary Values Tests ==================
 
-        // TC10: Vertex on a side of a quadrangular
+        // TC11: Vertex on a side of a quadrangular
         assertThrows(IllegalArgumentException.class, //
                 () -> new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0),
                         new Point(0, 0.5, 0.5)),
                 "Constructed a polygon with vertix on a side");
 
-        // TC11: Last point = first point
+        // TC12: Last point = first point
         assertThrows(IllegalArgumentException.class, //
                 () -> new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1)),
                 "Constructed a polygon with vertice on a side");
 
-        // TC12: Co-located points
+        // TC13: Co-located points
         assertThrows(IllegalArgumentException.class, //
                 () -> new Polygon(new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 1, 0)),
                 "Constructed a polygon with vertice on a side");
 
     }
 
-    /** Test method for {@link geometries.Polygon#getNormal(primitives.Point)}. */
+    /**
+     * Test method for {@link geometries.Polygon#getNormal(primitives.Point)}.
+     */
     @Test
     public void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here - using a quad
         Point[] pts =
-                { new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1) };
+                {new Point(0, 0, 1), new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1)};
         Polygon pol = new Polygon(pts);
         // ensure there are no exceptions
         assertDoesNotThrow(() -> pol.getNormal(new Point(0, 0, 1)), "");
