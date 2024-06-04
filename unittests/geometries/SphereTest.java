@@ -95,7 +95,10 @@ class SphereTest {
         assertEquals(p2, result.get(0), "p1 Does not give what is expected");
 
         // TC16: Ray starts at the center (1 points)
-        assertThrows(IllegalArgumentException.class, () -> sphere.findIntsersections(new Ray(new Point(1, 0, 0), new Vector(0, -1, 0))), "ERROR: can't pass through the sphere center");
+        p2 = new Point(1, -1, 0);
+        result = sphere.findIntsersections(new Ray(new Point(1, 0, 0), new Vector(0, -1, 0)));
+        assertEquals(1, result.size(), "Wrong number of points");
+        assertEquals(p2, result.get(0),"p1 Does not give what is expected");
 
         // TC17: Ray starts at sphere and goes outside (0 points)
         assertNull(sphere.findIntsersections(new Ray(new Point(1, -1, 0), new Vector(0, -1, 0))), "ERROR: Ray starts at sphere and goes outside");
