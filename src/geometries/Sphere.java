@@ -36,33 +36,41 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        // Degenerate case: Ray originates from the circle center
         if (center.equals(ray.getHead())) {
-            return List.of(ray.getPoint(radius));
+            return List.of(ray.getPoint(radius)); // Point on circle with radius distance
         }
+
+        // Calculate the vector from circle center to ray origin (head)
         Vector u = center.subtract(ray.getHead());
-        double tm = u.dotProduct(ray.getDir());
-        double dSquared = u.lengthSquared() - tm * tm;
 
+        // Calculate the projection of u onto the ray direction vector
+        double tm = u.dotProduct(ray.getDir());  // tm = projection of u onto ray direction
+
+        // Distance squared between center and the projection of ray origin onto ray direction
+        double dSquared = u.dotProduct(u) - tm * tm;  // Avoids redundant lengthSquared calculation
+
+        // Check if the distance is greater than the radius squared (no intersection)
         if (dSquared >= radius * radius) {
-            // No collision
-            return null;
+            return null; // No intersection
         }
 
+        // Calculate the distance along the ray for the two intersection points
         double th = Math.sqrt(radius * radius - dSquared);
         double t1 = tm - th;
         double t2 = tm + th;
 
+        // Check if both intersection points are behind the ray origin (no intersection)
         if (t2 <= 0) {
-            // Both intersection points are behind the ray
-            return null;
+            return null; // Both intersections behind the ray
         }
 
         List<Point> result;
+        // Check if only one intersection point is in front of the ray origin
         if (t1 <= 0) {
-            // One intersection point is behind the ray, the other is in front
             result = List.of(ray.getHead().add(ray.getDir().scale(t2)));
         } else {
-            // Both intersection points are in front of the ray
+            // Both intersection points are in front of the ray origin
             result = List.of(
                     ray.getHead().add(ray.getDir().scale(t1)),
                     ray.getHead().add(ray.getDir().scale(t2))
