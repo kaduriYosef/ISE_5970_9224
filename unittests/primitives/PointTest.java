@@ -19,13 +19,13 @@ class PointTest {
     void testAdd() {
         Point v1 = new Point(1, 2, 3);
         // =============== Boundary Values Tests ==================
-        //TC01: Test that adding a vector to a point with coordinates (1, 2, 3) and a vector with coordinates (-1, -2, -3) returns the point (0, 0, 0).
+        //TC11: Test that adding a vector to a point with coordinates (1, 2, 3) and a vector with coordinates (-1, -2, -3) returns the point (0, 0, 0).
         assertEquals(
                 new Point(0,0,0),
                 v1.add(new Vector(-1,-2,-3)),
                 "ERROR: Point + Vector does not work correctly");
         // ============ Equivalence Partitions Tests ==============
-        //TC02: Test that adding a vector to a point with coordinates (1, 2, 3) and a vector with coordinates (-2, -4, -6) returns the point (-1, -2, -3).
+        //TC10: Test that adding a vector to a point with coordinates (1, 2, 3) and a vector with coordinates (-2, -4, -6) returns the point (-1, -2, -3).
         assertEquals(
                 new Point(-1,-2,-3),
                 v1.add(new Vector(-2,-4,-6)),
