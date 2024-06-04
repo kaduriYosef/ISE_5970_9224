@@ -7,7 +7,7 @@ import primitives.Vector;
 /**
  * This class represents a tube geometry in 3D space, likely defined by a radius and a central axis.
  */
-public abstract class Tube extends RadialGeometry {
+public class Tube extends RadialGeometry {
 
     /**
      * The central axis of the tube represented by a Ray object.
@@ -42,4 +42,6 @@ public abstract class Tube extends RadialGeometry {
 
         return p.subtract(o).normalize();
     }
+
+    
 }
