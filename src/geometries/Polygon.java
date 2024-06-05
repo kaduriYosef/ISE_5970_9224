@@ -112,16 +112,14 @@ public class Polygon implements Geometry {
                 prePoint = point;
             }
 
-            Vector preVector = vectors.get(vectors.size()-1);
-            for (Vector vector:vectors) {
-                if(vector.dotProduct(preVector)<0){
+            Vector preVector = vectors.get(vectors.size() - 1);
+            for (Vector vector : vectors) {
+                if (vector.dotProduct(preVector) < 0) {
                     return null;
                 }
                 preVector = vector;
             }
-        }
-        catch (IllegalArgumentException exception)
-        {
+        } catch (IllegalArgumentException exception) {
             return null;
         }
         return List.of(intersectionPoint);

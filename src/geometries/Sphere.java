@@ -65,18 +65,15 @@ public class Sphere extends RadialGeometry {
             return null; // Both intersections behind the ray
         }
 
-        List<Point> result;
         // Check if only one intersection point is in front of the ray origin
         if (t1 <= 0) {
-            result = List.of(ray.getHead().add(ray.getDir().scale(t2)));
+            return List.of(ray.getHead().add(ray.getDir().scale(t2)));
         } else {
             // Both intersection points are in front of the ray origin
-            result = List.of(
+            return List.of(
                     ray.getHead().add(ray.getDir().scale(t1)),
                     ray.getHead().add(ray.getDir().scale(t2))
             );
         }
-
-        return result;
     }
 }

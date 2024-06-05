@@ -3,8 +3,7 @@ package primitives;
 import java.util.Objects;
 
 /**
-*
- *  Represents a ray in three-dimensional space, defined by a starting point and a direction vector.
+ * Represents a ray in three-dimensional space, defined by a starting point and a direction vector.
  */
 public class Ray {
     private final Point head;
@@ -24,6 +23,7 @@ public class Ray {
 
     /**
      * func that a string representation of this Ray.
+     *
      * @return Returns a string representation of this Ray.
      */
     @Override
@@ -36,7 +36,8 @@ public class Ray {
 
     /**
      * Returns true if the Ray object is equal to a given object.
-      * @param  obj the object to compare with the Ray
+     *
+     * @param obj the object to compare with the Ray
      * @return true if the Ray object is equal to the given object, false otherwise
      */
     @Override
@@ -48,30 +49,33 @@ public class Ray {
     }
 
     /**
-     Returns the starting point of the ray.
-     @return The starting point of the ray.
+     * Returns the starting point of the ray.
+     *
+     * @return The starting point of the ray.
      */
     public Point getHead() {
         return head;
     }
 
     /**
-     Returns the direction vector of the ray.
-     @return The direction vector of the ray.
+     * Returns the direction vector of the ray.
+     *
+     * @return The direction vector of the ray.
      */
     public Vector getDir() {
         return direction;
     }
 
     /**
-
-     Computes the point on the ray at a given parameter t.
-     @param t The parameter value determining the point along the ray.
-     @return The point on the ray at parameter t.
+     * The method calculates a point on the ray line at a given distance from the ray head
+     *
+     * @param t The parameter value determining the point along the ray.
+     * @return The point on the ray at parameter t.
      */
-    public Point getPoint(double t)
-    {
-        return head.add(direction.scale(t));
+    public Point getPoint(double t) {
+        if (Util.isZero(t))
+            return getHead();
+        return getHead().add(getDir().scale(t));
     }
 
 }
