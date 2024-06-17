@@ -11,7 +11,7 @@ import static primitives.Util.alignZero;
 import java.security.cert.CertPathBuilder;
 
 
-public class Camera implements Cloneable{
+public class Camera implements Cloneable {
     private Point cameraPosition;
     private Vector vRight;
     private Vector vUp;
@@ -20,15 +20,23 @@ public class Camera implements Cloneable{
     private double width = 0.0;
     private double distance = 0.0;
 
-    public static class Builder
-    {
+    public static class Builder {
         private final Camera camera = new Camera();
+        private static final String MISSING_RESOURCE_MESSAGE = "Missing rendering data";
+        private static final String CAMERA_CLASS_NAME = Camera.class.getSimpleName();
 
         public Builder setLocation(Point p) {
+
+            camera.cameraPosition = p;
             return this;
         }
 
         public Builder setDirection(Vector Vto, Vector Vup) {
+            if (Vto == null || Vup == null) {
+                throw new IllegalArgumentException("Direction Vto, Vup should not be null");
+            }
+            camera.vTo = Vto.normalize();
+            camera.vUp = Vup.normalize();
             return this;
         }
 
@@ -41,9 +49,42 @@ public class Camera implements Cloneable{
         }
 
         public Builder setVpDistance(double distance) {
+            if (distance <= 0){
+                throw new IllegalArgumentException("Distance must be positive");
+            }
+            camera.distance = distance;
             return this;
         }
+        public Camera build() throws CloneNotSupportedException {
+            if (camera.cameraPosition == null) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"cameraPosition");
+            }
+            if (camera.vRight == null) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"vRight");
+
+            }
+            if (camera.vUp == null) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"vUp");
+
+            }
+            if (camera.vTo == null) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"vTo");
+
+            }
+            if (camera.distance <= 0) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"distance");
+            }
+            if (camera.height <= 0) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"height");
+            }
+            if (camera.width <= 0) {
+                throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME,"width");
+            }
+            return (Camera) camera.clone();
+        }
+
     }
+
     /**
      *
      */
@@ -51,11 +92,9 @@ public class Camera implements Cloneable{
     }
 
     /**
-     *
      * @return
      */
-    public Builder getBuilder()
-    {
+    public static Builder getBuilder() {
         return new Builder();
     }
 
@@ -89,7 +128,6 @@ public class Camera implements Cloneable{
     }
 
     /**
-     *
      * @param nX
      * @param nY
      * @param j
