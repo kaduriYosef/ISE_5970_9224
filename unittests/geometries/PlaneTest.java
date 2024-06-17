@@ -110,8 +110,18 @@ class PlaneTest {
 
         assertTrue(result == null, "Ray is perpendicular to the plane but the method returned an intersection point");
 
+        // TC13: Test for ray-plane intersection when the ray is perpendicular to the plane and starts before the plane.
+        Plane plane1=new Plane(new Point(0,2,3),new Vector(1,0,0));
+        assertEquals(
+                List.of(new Point(0,0,0)),
+                plane1.findIntersections(new Ray(new Point(-1,0,0), new Vector(1,0,0))),
+                "ERROR: Expected intersection point when the ray is perpendicular to the plane and starts before it (TC13)"
+        );
 
-        // TC13: Ray starts after the plane and does not intersect
+        // TC14: Test for ray-plane intersection when the ray is perpendicular to the plane and starts inside the plane.
+        assertNull(plane.findIntersections(new Ray(new Point(0, 2, 3), new Vector(1, 0, 0))),
+                "ERROR: No intersection expected when the ray is perpendicular to the plane and starts inside it (TC14)");
+        // TC15: Ray starts after the plane and does not intersect
         P = new Point(0, 0, 2);
         v = new Vector(0, 0, 1);
         ray = new Ray(P, v);
