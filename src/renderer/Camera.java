@@ -19,10 +19,29 @@ public class Camera implements Cloneable{
     private double height = 0.0;
     private double width = 0.0;
     private double distance = 0.0;
-    public static class Builder{
+
+    public static class Builder
+    {
         private final Camera camera = new Camera();
 
-        public CertPathBuilder setViewPlaneSize(int i, int i1) {
+        public Builder setLocation(Point p) {
+            return this;
+        }
+
+        public Builder setDirection(Vector Vto, Vector Vup) {
+            return this;
+        }
+
+        public Builder setVpSize(double width, double height) {
+            if (width <= 0 || height <= 0)
+                throw new IllegalArgumentException("View plane dimension must be positives");
+            camera.width = width;
+            camera.height = height;
+            return this;
+        }
+
+        public Builder setVpDistance(double distance) {
+            return this;
         }
     }
     /**
@@ -37,7 +56,7 @@ public class Camera implements Cloneable{
      */
     public Builder getBuilder()
     {
-
+        return new Builder();
     }
 
 

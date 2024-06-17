@@ -34,7 +34,7 @@ class CameraTest {
 
         // ============ Equivalence Partitions Tests ==============
         // EP01: 4X4 Inside (1,1)
-        Camera camera1 = cameraBuilder.setViewPlaneSize(8, 8).build();
+        Camera camera1 = cameraBuilder.setVpSize(8, 8).build();
         assertEquals(new Ray(Point.ZERO, new Vector(1, -1, -10)),
                 camera1.constructRay(4, 4, 1, 1), badRay);
 
@@ -48,7 +48,7 @@ class CameraTest {
                 camera1.constructRay(4, 4, 1, 0), badRay);
 
         // BV03: 3X3 Center (1,1)
-        Camera camera2 = cameraBuilder.setViewPlaneSize(6, 6).build();
+        Camera camera2 = cameraBuilder.setVpSize(6, 6).build();
         assertEquals(new Ray(Point.ZERO, new Vector(0, 0, -10)),
                 camera2.constructRay(3, 3, 1, 1), badRay);
 
