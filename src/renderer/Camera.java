@@ -7,9 +7,15 @@ import primitives.Vector;
 
 import java.util.MissingResourceException;
 
-import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+/**
+ * The Camera class represents a camera in 3D space with a specific position and orientation.
+ * It is used to define the view of a scene for rendering purposes.
+ * <p>
+ * This class includes the position of the camera, orientation vectors, and parameters
+ * for the view plane and the rendering mechanism.
+ */
 public class Camera implements Cloneable {
     private Point cameraPosition;
     private Vector vRight;
@@ -31,6 +37,7 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the location of the camera.
+         *
          * @param p Point representing the camera position.
          * @return The current Builder instance.
          */
@@ -41,6 +48,7 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the direction vectors of the camera.
+         *
          * @param Vto Vector pointing to the viewing direction.
          * @param Vup Vector pointing upwards.
          * @return The current Builder instance.
@@ -56,7 +64,8 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the size of the view plane.
-         * @param width Width of the view plane.
+         *
+         * @param width  Width of the view plane.
          * @param height Height of the view plane.
          * @return The current Builder instance.
          */
@@ -70,6 +79,7 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the distance from the camera to the view plane.
+         *
          * @param distance Distance to the view plane.
          * @return The current Builder instance.
          */
@@ -83,6 +93,7 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the RayTracerBase instance for the camera.
+         *
          * @param rayTracer RayTracerBase instance.
          * @return The current Builder instance.
          */
@@ -93,6 +104,7 @@ public class Camera implements Cloneable {
 
         /**
          * Sets the ImageWriter instance for the camera.
+         *
          * @param imageWriter ImageWriter instance.
          * @return The current Builder instance.
          */
@@ -103,9 +115,10 @@ public class Camera implements Cloneable {
 
         /**
          * Builds the Camera instance.
+         *
          * @return A new Camera instance.
          * @throws CloneNotSupportedException If the Camera instance cannot be cloned.
-         * @throws MissingResourceException If any required resource is missing.
+         * @throws MissingResourceException   If any required resource is missing.
          */
         public Camera build() throws CloneNotSupportedException {
             camera.vRight = camera.vTo.crossProduct(camera.vUp);
@@ -144,47 +157,83 @@ public class Camera implements Cloneable {
 
     /**
      * Returns a new Builder instance.
+     *
      * @return A new Builder instance.
      */
     public static Builder getBuilder() {
         return new Builder();
     }
 
-    // Getter methods
+    /**
+     * Gets the position of the camera in 3D space.
+     *
+     * @return the camera position as a {@code Point}
+     */
     public Point getCameraPosition() {
         return cameraPosition;
     }
 
+    /**
+     * Gets the right direction vector from the camera's perspective.
+     *
+     * @return the right direction vector as a {@code Vector}
+     */
     public Vector getvRight() {
         return vRight;
     }
 
+    /**
+     * Gets the up direction vector from the camera's perspective.
+     *
+     * @return the up direction vector as a {@code Vector}
+     */
     public Vector getvUp() {
         return vUp;
     }
 
+    /**
+     * Gets the forward direction vector from the camera's perspective.
+     *
+     * @return the forward direction vector as a {@code Vector}
+     */
     public Vector getvTo() {
         return vTo;
     }
 
+    /**
+     * Gets the height of the view plane.
+     *
+     * @return the height of the view plane as a {@code double}
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Gets the width of the view plane.
+     *
+     * @return the width of the view plane as a {@code double}
+     */
     public double getWidth() {
         return width;
     }
 
+    /**
+     * Gets the distance from the camera to the view plane.
+     *
+     * @return the distance from the camera to the view plane as a {@code double}
+     */
     public double getDistance() {
         return distance;
     }
 
     /**
      * Constructs a ray through a specific pixel.
+     *
      * @param nX Number of pixels in the x-axis.
      * @param nY Number of pixels in the y-axis.
-     * @param j Pixel column.
-     * @param i Pixel row.
+     * @param j  Pixel column.
+     * @param i  Pixel row.
      * @return A Ray from the camera through the specified pixel.
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
@@ -227,10 +276,11 @@ public class Camera implements Cloneable {
 
     /**
      * Casts a ray through a specific pixel and writes the resulting color.
-     * @param Nx Number of pixels in the x-axis.
-     * @param Ny Number of pixels in the y-axis.
+     *
+     * @param Nx     Number of pixels in the x-axis.
+     * @param Ny     Number of pixels in the y-axis.
      * @param column Pixel column.
-     * @param row Pixel row.
+     * @param row    Pixel row.
      */
     private void castRay(int Nx, int Ny, int column, int row) {
         imageWriter.writePixel(column, row, rayTracer.traceRay(constructRay(Nx, Ny, column, row)));
@@ -238,8 +288,9 @@ public class Camera implements Cloneable {
 
     /**
      * Prints a grid on the image with a specific interval and color.
+     *
      * @param interval The interval between grid lines.
-     * @param color The color of the grid lines.
+     * @param color    The color of the grid lines.
      * @throws MissingResourceException If the ImageWriter is not initialized.
      */
     public void printGrid(int interval, Color color) throws MissingResourceException {
@@ -258,6 +309,7 @@ public class Camera implements Cloneable {
 
     /**
      * Writes the rendered image to a file.
+     *
      * @throws MissingResourceException If the ImageWriter is not initialized.
      */
     public void writeToImage() {

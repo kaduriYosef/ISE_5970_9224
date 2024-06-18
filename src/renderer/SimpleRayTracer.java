@@ -5,7 +5,6 @@ import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**

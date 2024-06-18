@@ -13,17 +13,20 @@ import scene.SceneBuilder;
 
 
 /**
- * Test rendering a basic image
+ * Test rendering a basic image.
+ * This class contains integration tests for rendering scenes using the Camera and various geometries.
+ * It includes tests for rendering scenes directly and from an XML file.
  *
  * @author Dan
  */
 public class RenderTests {
     /**
-     * Scene of the tests
+     * The scene used for the tests.
      */
     private final Scene scene = new Scene("Test scene");
+
     /**
-     * Camera builder of the tests
+     * The camera builder used for the tests.
      */
     private final Camera.Builder camera = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(scene))
@@ -32,22 +35,23 @@ public class RenderTests {
             .setVpSize(500, 500);
 
     /**
-     * Produce a scene with basic 3D model and render it into a png image with a
-     * grid
+     * Produces a scene with a basic 3D model and renders it into a PNG image with a grid.
+     * <p>
+     * This test sets up a scene with a sphere and three triangles, adds ambient light,
+     * and sets a background color. It then renders the image, adds a grid, and writes
+     * the final image to a file.
+     *
+     * @throws CloneNotSupportedException if the camera cannot be cloned
      */
     @Test
     public void renderTwoColorTest() throws CloneNotSupportedException {
         scene.geometries.add(new Sphere(new Point(0, 0, -100), 50d),
-                new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
-                // left
-                new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
-                        new Point(-100, -100, -100)), // down
-                // left
-                new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
+                new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up left
+                new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100), new Point(-100, -100, -100)), // down left
+                new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down right
         scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), Double3.ONE))
                 .setBackground(new Color(75, 127, 90));
 
-        // right
         Camera cam = camera
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
                 .build();
@@ -56,9 +60,17 @@ public class RenderTests {
         cam.writeToImage();
     }
 
+    /**
+     * Produces a scene from an XML file and renders it into a PNG image with a grid.
+     * <p>
+     * This test builds a scene from an XML file, sets up the camera, and renders the image.
+     * It then adds a grid and writes the final image to a file.
+     *
+     * @throws CloneNotSupportedException if the camera cannot be cloned
+     */
     @Test
     public void basicRenderXml() throws CloneNotSupportedException {
-        /**
+        /*
          * Directory path for the image file generation - relative to the user
          * directory
          */
@@ -67,7 +79,7 @@ public class RenderTests {
         // Build scene from XML
         Scene scene = SceneBuilder.buildSceneFromXml(FOLDER_PATH + ".xml");
 
-        Camera cam=camera
+        Camera cam = camera
                 .setRayTracer(new SimpleRayTracer(scene))
                 .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
                 .build();
@@ -76,5 +88,3 @@ public class RenderTests {
         cam.writeToImage();
     }
 }
-
-

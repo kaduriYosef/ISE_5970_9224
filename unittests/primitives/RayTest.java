@@ -2,8 +2,6 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,10 +26,13 @@ class RayTest {
         assertEquals(new Point(0, 0, -2), ray.getPoint(-3), "Test when the scalar is negative (TC02)");
 
         // =============== Boundary Values Tests ==================
-        // TC03: Test when the scalar is zero
+        // TC11: Test when the scalar is zero
         assertEquals(new Point(0, 0, 1), ray.getPoint(0), "Test when the scalar is zero (TC03)");
 
     }
+    /**
+     * Test method for {@link primitives.Ray#findClosestPoint(List)}
+     */
     @Test
     void testFindClosestPoint() {
 

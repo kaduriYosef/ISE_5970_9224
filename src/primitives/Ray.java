@@ -1,7 +1,6 @@
 package primitives;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents a ray in three-dimensional space, defined by a starting point and a direction vector.
@@ -79,8 +78,17 @@ public class Ray {
         return getHead().add(getDir().scale(t));
     }
 
+    /**
+     * Finds the closest point to the head point from a list of points.
+     *
+     * @param points the list of points to search through
+     * @return the point closest to the head point, or {@code null} if the list is empty
+     * This method iterates through the given list of points and calculates the squared distance
+     * from each point to the head point. It keeps track of the point with the smallest squared
+     * distance and returns it. If the list of points is empty, the method returns {@code null}.
+     */
     public Point findClosestPoint(List<Point> points) {
-        if (points==null||points.isEmpty()) {
+        if (points == null || points.isEmpty()) {
             return null;
         }
         Point closest = points.getFirst();
@@ -93,4 +101,5 @@ public class Ray {
         }
         return closest;
     }
+
 }
