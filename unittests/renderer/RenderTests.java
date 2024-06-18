@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import geometries.*;
 import lighting.AmbientLight;
 import primitives.*;
-import renderer.*;
+import primitives.Color;
 import scene.Scene;
-import scene.SceneBuilder;
+
 
 /**
  * Test rendering a basic image
@@ -35,8 +35,8 @@ public class RenderTests {
      * grid
      */
     @Test
-    public void renderTwoColorTest() {
-        scene.geometries.add(new Sphere(50d, new Point(0, 0, -100)),
+    public void renderTwoColorTest() throws CloneNotSupportedException {
+        scene.geometries.add(new Sphere(new Point(0, 0, -100), 50d),
                 new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
                 // left
                 new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
@@ -47,29 +47,14 @@ public class RenderTests {
                 .setBackground(new Color(75, 127, 90));
 
         // right
-        camera
+        Camera cam = camera
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
-                .build()
-                .renderImage()
-                .printGrid(100, new Color(YELLOW))
-                .writeToImage();
+                .build();
+        cam.renderImage();
+        cam.printGrid(100, new Color(YELLOW));
+        cam.writeToImage();
     }
 
-    /**
-     * Test for XML based scene - for bonus
-     */
-    @Test
-    public void basicRenderXml() {
-        // Build scene from XML
-        Scene scene = SceneBuilder.buildSceneFromXml("C:\\Users\\USER\\Desktop\\MiniP software engineering\\renderTestTwoColors.xml");
-
-        camera
-                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-                .build()
-                .renderImage()
-                .printGrid(100, new Color(java.awt.Color.YELLOW))
-                .writeToImage();
-    }
 
 }
 

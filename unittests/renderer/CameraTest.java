@@ -2,14 +2,10 @@ package renderer;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
-
 import primitives.*;
-import renderer.*;
+import scene.*;
 
 /**
  * Testing Camera Class
@@ -29,7 +25,7 @@ class CameraTest {
      * {@link Camera#constructRay(int, int, int, int)}.
      */
     @Test
-    void testConstructRay() {
+    void testConstructRay() throws CloneNotSupportedException {
         final String badRay  = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
