@@ -23,12 +23,19 @@ public class SimpleRayTracer extends RayTracerBase {
         super(scene);
     }
 
-
+    /**
+     * Traces a ray and determines the color at the closest intersection point.
+     *
+     * @param ray The ray to be traced.
+     * @return The color at the closest intersection point, or the background color if no intersections are found.
+     */
     @Override
     public Color traceRay(Ray ray) {
         List<Point> points = scene.geometries.findIntersections(ray);
-        if (points == null) return scene.background;
-        return calcColor(ray.findClosestPoint(points));
+        if (points == null) {
+            return scene.background; // Return the background color if no intersections are found
+        }
+        return calcColor(ray.findClosestPoint(points)); // Calculate the color at the closest intersection point
     }
 
     /**
@@ -38,6 +45,6 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return The color at the intersection point.
      */
     private Color calcColor(Point point) {
-        return scene.ambientLight.getIntensity();
+        return scene.ambientLight.getIntensity(); // Return the ambient light intensity as the color
     }
 }
