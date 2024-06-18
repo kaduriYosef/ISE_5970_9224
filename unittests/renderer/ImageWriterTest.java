@@ -22,7 +22,7 @@ public class ImageWriterTest {
         int width = 800;
         ImageWriter imageWriter = new ImageWriter("testImage", width, height);
         final Color red = new Color(RED);
-        final Color blue = new Color(GRAY);
+        final Color gray = new Color(GRAY);
 
         //final Color reh all pixels and set their colors based on their position.
         for (int i = 0; i < width; i++) {
@@ -33,7 +33,7 @@ public class ImageWriterTest {
                 }
                 // Fill the rest with blue
                 else {
-                    imageWriter.writePixel(i, j, blue);
+                    imageWriter.writePixel(i, j, gray);
                 }
             }
         }
