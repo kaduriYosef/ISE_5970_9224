@@ -9,6 +9,7 @@ import lighting.AmbientLight;
 import primitives.*;
 import primitives.Color;
 import scene.Scene;
+import scene.SceneBuilder;
 
 
 /**
@@ -55,7 +56,25 @@ public class RenderTests {
         cam.writeToImage();
     }
 
+    @Test
+    public void basicRenderXml() throws CloneNotSupportedException {
+        /**
+         * Directory path for the image file generation - relative to the user
+         * directory
+         */
+        final String FOLDER_PATH = System.getProperty("user.dir") + "/renderTestTwoColors";
 
+        // Build scene from XML
+        Scene scene = SceneBuilder.buildSceneFromXml(FOLDER_PATH + ".xml");
+
+        Camera cam=camera
+                .setRayTracer(new SimpleRayTracer(scene))
+                .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+                .build();
+        cam.renderImage();
+        cam.printGrid(100, new Color(java.awt.Color.YELLOW));
+        cam.writeToImage();
+    }
 }
 
 
