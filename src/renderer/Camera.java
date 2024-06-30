@@ -26,6 +26,7 @@ public class Camera implements Cloneable {
     private double distance = 0.0;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
+    private Point pCenter;
 
     /**
      * Builder class for constructing a Camera instance.
@@ -121,7 +122,7 @@ public class Camera implements Cloneable {
          * @throws MissingResourceException   If any required resource is missing.
          */
         public Camera build() throws CloneNotSupportedException {
-            camera.vRight = camera.vTo.crossProduct(camera.vUp);
+
             if (camera.cameraPosition == null)
                 throw new MissingResourceException(MISSING_RESOURCE_MESSAGE, CAMERA_CLASS_NAME, "cameraPosition");
             if (camera.vUp == null)
@@ -144,6 +145,9 @@ public class Camera implements Cloneable {
                 throw new IllegalArgumentException("The width value is invalid");
             if (camera.distance < 0)
                 throw new IllegalArgumentException("The distance value is invalid");
+
+            camera.vRight = camera.vTo.crossProduct(camera.vUp);
+            camera.pCenter = camera.cameraPosition.add(camera.vTo.scale(camera.distance));
 
             return (Camera) camera.clone();
         }
@@ -238,7 +242,7 @@ public class Camera implements Cloneable {
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
         // Image center
-        Point pointCenter = cameraPosition.add(vTo.scale(distance));
+        Point pointCenter = pCenter;
 
         // Calculate the size of each pixel
         double Rx = width / nX;
