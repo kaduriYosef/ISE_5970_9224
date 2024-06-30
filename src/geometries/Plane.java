@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * This class represents a geometric plane in 3D space.
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     /**
      * A point on the plane.
@@ -66,8 +66,8 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> result = null;
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> result = null;
 
         // Get the plane's normal,
         Vector n = getNormal();
@@ -84,7 +84,7 @@ public class Plane implements Geometry {
             if (t > 0) {
                 // Calculate the intersection point coordinates and return it.
                 Point intersect = p0.add(v.scale(t));
-                result = List.of(intersect);
+                result = List.of(new GeoPoint(this, ray.getPoint(t)));
             }
         }
         // Return the intersection point or null if no intersection exists.

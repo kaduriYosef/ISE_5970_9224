@@ -13,7 +13,7 @@ import primitives.Ray;
  * It implements the `Intersectable` interface, allowing it to be treated as a single
  * entity for ray intersection calculations.
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 
     /**
      * A list of `Intersectable` objects representing the individual geometric shapes
@@ -48,11 +48,11 @@ public class Geometries implements Intersectable {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
 
-        List<Point> result = null;
+        List<GeoPoint> result = null;
         for (Intersectable shape : intersectables) {
-            List<Point> shapePoints = shape.findIntersections(ray);
+            List<GeoPoint> shapePoints = shape.findGeoIntersectionsHelper(ray);
             if (shapePoints != null) {
                 if (result == null) {
                     result = new LinkedList<>();

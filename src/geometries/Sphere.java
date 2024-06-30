@@ -35,10 +35,10 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // Degenerate case: Ray originates from the circle center
         if (center.equals(ray.getHead())) {
-            return List.of(ray.getPoint(radius)); // Point on circle with radius distance
+            return List.of(new GeoPoint(this, ray.getPoint(radius))); // Point on circle with radius distance
         }
 
         // Calculate the vector from circle center to ray origin (head)
@@ -67,13 +67,13 @@ public class Sphere extends RadialGeometry {
 
         // Check if only one intersection point is in front of the ray origin
         if (t1 <= 0) {
-            return List.of(ray.getHead().add(ray.getDir().scale(t2)));
+            return List.of(new GeoPoint(this, ray.getHead().add(ray.getDir().scale(t2))));
         } else {
             // Both intersection points are in front of the ray origin
-            return List.of(
-                    ray.getHead().add(ray.getDir().scale(t1)),
-                    ray.getHead().add(ray.getDir().scale(t2))
-            );
+            return List.of(new GeoPoint(this,
+                    ray.getHead().add(ray.getDir().scale(t1))), new GeoPoint(this,
+                    ray.getHead().add(ray.getDir().scale(t2))));
         }
     }
 }
+

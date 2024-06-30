@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
+
 /**
  * Represents a ray in three-dimensional space, defined by a starting point and a direction vector.
  */
@@ -88,18 +90,36 @@ public class Ray {
      * distance and returns it. If the list of points is empty, the method returns {@code null}.
      */
     public Point findClosestPoint(List<Point> points) {
-        if (points == null || points.isEmpty()) {
-            return null;
-        }
-        Point closest = points.getFirst();
-        double minDistanceSquared = closest.distanceSquared(getHead());
-        for (var point : points) {
-            if (point.distanceSquared(getHead()) < minDistanceSquared) {
-                closest = point;
-                minDistanceSquared = point.distanceSquared(getHead());
-            }
-        }
-        return closest;
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
 
+
+    /**
+     * Finds the closest GeoPoint in a list to the head of this object's geometry.
+     *
+     * <p>This method iterates through a list of GeoPoints and calculates the distance between the head of this
+     * object's geometry and each GeoPoint in the list. It keeps track of the GeoPoint with the minimum distance.
+     * If the list is empty, it returns null.</p>
+     *
+     * @param geoPointList The list of GeoPoints to search through.
+     * @return The closest GeoPoint to the head of this object's geometry, or null if the list is empty.
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPointList) {
+
+        GeoPoint closestPoint = null;
+        double minDistance = Double.MAX_VALUE;
+        double geoPointDistance; // the distance between the "this.p0" to each point in the list
+
+        if (!geoPointList.isEmpty()) {
+            for (var geoPoint : geoPointList) {
+                geoPointDistance = this.getHead().distance(geoPoint.point);
+                if (geoPointDistance < minDistance) {
+                    minDistance = geoPointDistance;
+                    closestPoint = geoPoint;
+                }
+            }
+        }
+        return closestPoint;
+    }
 }

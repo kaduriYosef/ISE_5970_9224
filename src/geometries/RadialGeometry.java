@@ -4,7 +4,7 @@ package geometries;
  * This abstract class represents a base class for geometries
  * defined using a radius value.
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
 
     /**
      * The radius of the radial geometry.

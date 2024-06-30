@@ -24,7 +24,7 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // Find intersections with the plane containing the triangle
         List<Point> intersections = plane.findIntersections(ray);
 
@@ -32,7 +32,7 @@ public class Triangle extends Polygon {
         if (intersections == null) {
             return null;
         }
-        List<Point> triangleIntersections = new ArrayList<Point>();
+        List<GeoPoint> triangleIntersections = new ArrayList<GeoPoint>();
         for (Point p : intersections) {
             // Check if the intersection point is inside the triangle
             Vector v1 = vertices.get(0).subtract(ray.getHead());
@@ -48,7 +48,7 @@ public class Triangle extends Polygon {
             double t3 = ray.getDir().dotProduct(n3);
 
             if ((t1 > 0 && t2 > 0 && t3 > 0) || (t1 < 0 && t2 < 0 && t3 < 0)) {
-                triangleIntersections.add(p);
+                triangleIntersections.add(new GeoPoint(this, p));
             }
         }
         // If there are no intersections with the triangle, return null

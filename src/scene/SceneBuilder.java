@@ -6,6 +6,7 @@ import org.w3c.dom.*;
 import primitives.Color;
 import primitives.Point;
 import primitives.Double3;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -86,13 +87,18 @@ public class SceneBuilder {
             case "sphere":
                 double radius = Double.parseDouble(geometryElement.getAttribute("radius"));
                 Point center = parsePoint(geometryElement.getAttribute("center"));
-                return new Sphere( center,radius);
+                return new Sphere(center, radius);
             case "triangle":
                 Point p0 = parsePoint(geometryElement.getAttribute("p0"));
                 Point p1 = parsePoint(geometryElement.getAttribute("p1"));
                 Point p2 = parsePoint(geometryElement.getAttribute("p2"));
                 return new Triangle(p0, p1, p2);
-
+            case "polygon":
+                p0 = parsePoint(geometryElement.getAttribute("p0"));
+                p1 = parsePoint(geometryElement.getAttribute("p1"));
+                p2 = parsePoint(geometryElement.getAttribute("p2"));
+                Point p3 = parsePoint(geometryElement.getAttribute("p3"));
+                return new Polygon(p0, p1, p2, p3);
             default:
                 throw new IllegalArgumentException("Unknown geometry type: " + type);
         }
