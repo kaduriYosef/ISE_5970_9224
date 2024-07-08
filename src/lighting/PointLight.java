@@ -8,9 +8,26 @@ import primitives.Vector;
  * PointLight class represents a light source in the scene.
  */
 public class PointLight extends Light implements LightSource {
-    protected Point position;
-    private double kC = 1;
-    private double kL = 0;
+    /**
+     * The position of the light source in 3D space.
+     */
+    private Point position;
+    /**
+     * Constant attenuation factor (kC) affecting the intensity of the light source.
+     * This factor is independent of the distance from the light source.
+     */
+    private double kC = 1; // Constant attenuation
+    /**
+     * Linear attenuation factor (kL) affecting the intensity of the light source.
+     * This factor decreases the intensity linearly with the distance from the light
+     * source.
+     */
+    private double kL = 0; // Linear attenuation
+    /**
+     * Quadratic attenuation factor (kQ) affecting the intensity of the light
+     * source. This factor decreases the intensity quadratically with the distance
+     * from the light source.
+     */
     private double kQ = 0;
 
     /**
@@ -78,5 +95,10 @@ public class PointLight extends Light implements LightSource {
     @Override
     public Vector getL(Point p) {
         return p.subtract(this.position).normalize();
+    }
+
+    @Override
+    public double getDistance(Point point) {
+        return position.distance(point);
     }
 }
