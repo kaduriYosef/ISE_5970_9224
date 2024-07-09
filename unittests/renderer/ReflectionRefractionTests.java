@@ -1,13 +1,9 @@
-
 package renderer;
 
 import static java.awt.Color.*;
-import static primitives.Util.random;
 
-import geometries.Plane;
 import geometries.Polygon;
-import lighting.DirectionalLight;
-import lighting.PointLight;
+
 import org.junit.jupiter.api.Test;
 
 import geometries.Sphere;
@@ -21,8 +17,6 @@ import scene.Scene;
  * Tests for reflection and transparency functionality, test for partial
  * shadows
  * (with transparency)
- *
- * @author dzilb
  */
 public class ReflectionRefractionTests {
     /**
@@ -118,14 +112,36 @@ public class ReflectionRefractionTests {
     }
 
 
+    /**
+     * Test case to verify the rendering of a scene involving a table, two spheres (representing balls),
+     * and multiple spotlights. The test focuses on the interaction of light reflection, refraction,
+     * and ambient lighting on the objects, especially how the spotlights highlight the balls and their
+     * reflection on the table.
+     */
     @Test
     public void tableSpotlightsBallReflection() throws CloneNotSupportedException {
+        // ----- Material Definitions -----
+        /*
+         * Material for the table surface.
+         * - KD (Diffuse coefficient): 0.8  (Highly diffuse, scatters light in many directions)
+         * - KS (Specular coefficient): 0.2 (Moderately reflective, forms a shiny spot)
+         * - Shininess: 30                (Controls the size and sharpness of the specular highlight)
+         * - KR (Reflection coefficient): 0.5 (Reflects 50% of light)
+         */
         Material tableMaterial = new Material()
                 .setKD(0.8)
                 .setKS(0.2)
                 .setShininess(30)
-                .setKR(new Double3(0.5)); // Reduced reflectivity for better realism
+                .setKR(new Double3(0.5));
 
+        /*
+         * Material for the first ball.
+         * - KD: 0.5
+         * - KS: 0.5
+         * - Shininess: 100 (Very high gloss)
+         * - KR: 0 (No reflection)
+         * - KT: 0.3 (30% of light is transmitted through the ball - some transparency)
+         */
         Material ballMaterial1 = new Material()
                 .setKD(0.5)
                 .setKS(0.5)
@@ -133,6 +149,14 @@ public class ReflectionRefractionTests {
                 .setKR(new Double3(0))
                 .setKT(0.3);
 
+        /*
+         * Material for the second ball, similar to the first but less transparent.
+         * - KD: 0.5
+         * - KS: 0.5
+         * - Shininess: 50 (Moderate gloss)
+         * - KR: 0
+         * - KT: 0.1 (10% of light transmitted)
+         */
         Material ballMaterial2 = new Material()
                 .setKD(0.5)
                 .setKS(0.5)
@@ -140,24 +164,32 @@ public class ReflectionRefractionTests {
                 .setKR(new Double3(0))
                 .setKT(0.1);
 
+        // ----- Scene Construction -----
+        /*
+         * Add geometric objects to the scene:
+         * - A flat polygon representing the table
+         * - Two spheres representing balls with distinct materials and emission colors
+         */
         scene.geometries.add(
-                // שולחן
                 new Polygon(
                         new Point(-100, -20, 0),
                         new Point(100, -20, 0),
                         new Point(100, -20, -100),
                         new Point(-100, -20, -100))
                         .setMaterial(tableMaterial),
-                // כדור
-                new Sphere(new Point(0, -10, -30), 10)
-                        .setEmission(new Color(0, 191, 255))
+                new Sphere(new Point(0, -10, -30), 10) // larger ball
+                        .setEmission(new Color(0, 191, 255))  // Cyan emission
                         .setMaterial(ballMaterial1),
-                new Sphere(new Point(0, 5, -30), 5)
-                        .setEmission(new Color(0, 191, 255))
+                new Sphere(new Point(0, 5, -30), 5) // Smaller ball
+                        .setEmission(new Color(0, 191, 255)) // Cyan emission
                         .setMaterial(ballMaterial2)
         );
 
-        // זרקורים (Spotlights)
+        // ----- Lighting Setup -----
+        /*
+         * Add spotlights with different colors and positions to create interesting lighting effects.
+         *  - Kl, Kq: attenuation factors controlling how light intensity diminishes with distance
+         */
         scene.lights.add(
                 new SpotLight(new Color(255, 153, 51), new Point(-100, 50, 0), new Vector(100, -70, -50))
                         .setKl(0.0001)
@@ -174,13 +206,23 @@ public class ReflectionRefractionTests {
                         .setKq(0.000005)
         );
 
-        // Ambient light
         scene.setAmbientLight(
                 new AmbientLight(new Color(255, 255, 255), 0.1)
         );
 
 
+        /*
+         * Set a subtle ambient light to illuminate areas not directly hit by spotlights.
+         */
+        scene.setAmbientLight(
+                new AmbientLight(new Color(255, 255, 255), 0.1)
+        );
 
+
+        // ----- Camera Setup -----
+        /*
+         * Configure the camera position and image output settings.
+         */
         Camera camera = cameraBuilder
                 .setLocation(new Point(0, 20, 50))
                 .setVpDistance(80)
@@ -188,6 +230,7 @@ public class ReflectionRefractionTests {
                 .setImageWriter(new ImageWriter("table_spotlights_ball_reflection", 600, 600))
                 .build();
 
+        // ----- Rendering -----
         camera.renderImage();
         camera.writeToImage();
     }
