@@ -13,6 +13,7 @@ import java.util.LinkedList;
  * The Scene class represents a scene in a 3D space, containing geometries, ambient light, and background color.
  */
 public class Scene {
+
     /**
      * The name of the scene.
      */

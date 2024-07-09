@@ -14,6 +14,7 @@ public class Ray {
      * A constant delta value used for numerical approximations or small adjustments
      */
     private static final double DELTA = 0.1;
+
     /**
      * Constructs a new ray with the given starting point and direction.
      *
@@ -129,7 +130,7 @@ public class Ray {
         double minDistance = Double.MAX_VALUE;
         double geoPointDistance; // the distance between the "this.p0" to each point in the list
 
-        if (!geoPointList.isEmpty()) {
+        if (geoPointList != null && !geoPointList.isEmpty()) {
             for (var geoPoint : geoPointList) {
                 geoPointDistance = this.getHead().distance(geoPoint.point);
                 if (geoPointDistance < minDistance) {
