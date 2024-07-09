@@ -117,78 +117,73 @@ public class ReflectionRefractionTests {
         cam.writeToImage();
     }
 
-    /**
-     * Test method to create and render a scene with several geometries and light sources.
-     * The scene includes:
-     * - Two triangles with different materials
-     * - Two spheres with different materials and emissions
-     * - Multiple light sources including point lights and directional light
-     * <p>
-     * The camera is positioned and configured to render the scene from a specific viewpoint.
-     * The rendered image is saved with the name "everything".
-     */
-    @Test
-    public void everything() throws CloneNotSupportedException {
-
-        scene.geometries.add( //
-                new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //
-                        .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(60)), //
-                new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
-                        .setMaterial(new Material().setKD(0.5).setKS(0.5).setShininess(60).setKR(new Double3(0.8))), //
-                new Sphere(new Point(-60, 70, 40), 30d).setEmission(new Color(600, 0, 600)) //
-                        .setMaterial(new Material().setKD(0.2).setKS(0.2).setShininess(30).setKT(0.9)),
-                new Sphere(new Point(50, -20, -100), 30d).setEmission(new Color(50, 300, 400)) //
-                        .setMaterial(new Material().setKD(0.2).setKS(0.2).setShininess(30)));
-        scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
-        scene.lights.add(new PointLight(new Color(100, 200, 200), new Point(60, 50, 100)) //
-                .setKl(4E-5).setKl(2E-7));
-        scene.lights.add(new PointLight(new Color(YELLOW).reduce(2), new Point(-10, 50, -10)).setKl(0.00003)
-                .setKc(1.00001).setKq(0.000001));
-        scene.lights.add(new DirectionalLight(new Color(255, 0, 0), new Vector(-5, -5, -5)));
-        Camera cam = cameraBuilder.setLocation(new Point(0, 0, 1000)).setVpDistance(1000).setVpSize(200, 200)
-                .setImageWriter(new ImageWriter("everything", 600, 600)).build();
-        cam.renderImage();
-        cam.writeToImage();
-    }
 
     @Test
     public void tableSpotlightsBallReflection() throws CloneNotSupportedException {
         Material tableMaterial = new Material()
                 .setKD(0.8)
                 .setKS(0.2)
-                .setShininess(20)
-                .setKR(new Double3(0.8));
+                .setShininess(30)
+                .setKR(new Double3(0.5)); // Reduced reflectivity for better realism
 
-        Material ballMaterial = new Material()
+        Material ballMaterial1 = new Material()
+                .setKD(0.5)
+                .setKS(0.5)
+                .setShininess(100)
+                .setKR(new Double3(0))
+                .setKT(0.3);
+
+        Material ballMaterial2 = new Material()
                 .setKD(0.5)
                 .setKS(0.5)
                 .setShininess(50)
-                .setKR(new Double3(0.8));
+                .setKR(new Double3(0))
+                .setKT(0.1);
 
         scene.geometries.add(
                 // שולחן
                 new Polygon(
-                        new Point(-50, -20, 0),
-                        new Point(50, -20, 0),
-                        new Point(50, -20, -50),
-                        new Point(-50, -20, -50))
+                        new Point(-100, -20, 0),
+                        new Point(100, -20, 0),
+                        new Point(100, -20, -100),
+                        new Point(-100, -20, -100))
                         .setMaterial(tableMaterial),
                 // כדור
                 new Sphere(new Point(0, -10, -30), 10)
-                        .setMaterial(ballMaterial)
+                        .setEmission(new Color(0, 191, 255))
+                        .setMaterial(ballMaterial1),
+                new Sphere(new Point(0, 5, -30), 5)
+                        .setEmission(new Color(0, 191, 255))
+                        .setMaterial(ballMaterial2)
         );
-
 
         // זרקורים (Spotlights)
         scene.lights.add(
-                new SpotLight(new Color(255, 255, 150), new Point(0, 10, -15), new Vector(0, -1, -1)) // זרקור 2
+                new SpotLight(new Color(255, 153, 51), new Point(-100, 50, 0), new Vector(100, -70, -50))
+                        .setKl(0.0001)
+                        .setKq(0.000005)
+        );
+        scene.lights.add(
+                new SpotLight(new Color(51, 255, 153), new Point(100, 50, 0), new Vector(-100, -70, -50))
+                        .setKl(0.0001)
+                        .setKq(0.000005)
+        );
+        scene.lights.add(
+                new SpotLight(new Color(153, 51, 255), new Point(0, 75, 100), new Vector(0, -95, -150))
                         .setKl(0.0001)
                         .setKq(0.000005)
         );
 
+        // Ambient light
+        scene.setAmbientLight(
+                new AmbientLight(new Color(255, 255, 255), 0.1)
+        );
+
+
+
         Camera camera = cameraBuilder
                 .setLocation(new Point(0, 20, 50))
-                .setVpDistance(100)
+                .setVpDistance(80)
                 .setVpSize(150, 150)
                 .setImageWriter(new ImageWriter("table_spotlights_ball_reflection", 600, 600))
                 .build();
@@ -196,5 +191,6 @@ public class ReflectionRefractionTests {
         camera.renderImage();
         camera.writeToImage();
     }
+
 
 }
