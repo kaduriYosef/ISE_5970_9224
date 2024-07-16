@@ -128,8 +128,7 @@ public class ShadowTests {
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
         scene.lights.add(
                 new SpotLight(new Color(700, 400, 400), new Point(40, 40, 115), new Vector(-1, -1, -4)) //
-                        .setKl(4E-4).setKq(2E-5));
-
+                        .setKl(4E-4).setKq(2E-5).setTargetArea(3, 15));
         Camera cam = camera.setImageWriter(new ImageWriter("shadowTrianglesSphere", 600, 600))
                 .build();
         cam.renderImage();

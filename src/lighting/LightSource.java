@@ -1,5 +1,6 @@
 package lighting;
 
+import org.junit.jupiter.api.Test;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
@@ -32,4 +33,11 @@ public interface LightSource {
      * @return The distance from the light source to the point.
      */
     double getDistance(Point point);
+
+    /**
+     * Get the target area of the object
+     *
+     * @return the target area
+     */
+    TargetArea getTargetArea();
 }

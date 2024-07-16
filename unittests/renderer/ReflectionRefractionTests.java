@@ -145,9 +145,9 @@ public class ReflectionRefractionTests {
         Material ballMaterial1 = new Material()
                 .setKD(0.5)
                 .setKS(0.5)
-                .setShininess(100)
+                .setShininess(50)
                 .setKR(new Double3(0))
-                .setKT(0.3);
+                .setKT(0.9);
 
         /*
          * Material for the second ball, similar to the first but less transparent.
@@ -162,7 +162,7 @@ public class ReflectionRefractionTests {
                 .setKS(0.5)
                 .setShininess(50)
                 .setKR(new Double3(0))
-                .setKT(0.1);
+                .setKT(0.9);
 
         // ----- Scene Construction -----
         /*
@@ -206,17 +206,8 @@ public class ReflectionRefractionTests {
                         .setKq(0.000005)
         );
 
-        scene.setAmbientLight(
-                new AmbientLight(new Color(255, 255, 255), 0.1)
-        );
 
 
-        /*
-         * Set a subtle ambient light to illuminate areas not directly hit by spotlights.
-         */
-        scene.setAmbientLight(
-                new AmbientLight(new Color(255, 255, 255), 0.1)
-        );
 
 
         // ----- Camera Setup -----

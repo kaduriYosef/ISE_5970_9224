@@ -8,10 +8,16 @@ import primitives.Vector;
  * PointLight class represents a light source in the scene.
  */
 public class PointLight extends Light implements LightSource {
+
+    /**
+     * The target area for soft shadows
+     */
+    protected TargetArea targetArea = new TargetArea();
+
     /**
      * The position of the light source in 3D space.
      */
-    private Point position;
+    private final Point position;
     /**
      * Constant attenuation factor (kC) affecting the intensity of the light source.
      * This factor is independent of the distance from the light source.
@@ -75,23 +81,23 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * A method to retrieve the intensity color.
+     * Set the shading board for soft shadow
      *
-     * @param p the point at which to calculate the intensity
-     * @return the intensity color
+     * @param rib  the rib of the square of the target area
+     * @param grid the rows and columns of the grid gor the target area
+     * @return the point light object
      */
+    public PointLight setTargetArea(double rib, int grid) {
+        targetArea = new TargetArea().setRib(rib).setGrid(grid).setCenter(position);
+        return this;
+    }
+
     @Override
     public Color getIntensity(Point p) {
         double distance = position.distance(p);
         return intensity.scale(1 / (kC + kL * distance + kQ * distance * distance));
     }
 
-    /**
-     * Retrieves the vector from the specified point.
-     *
-     * @param p the point from which to retrieve the vector
-     * @return the vector retrieved from the specified point
-     */
     @Override
     public Vector getL(Point p) {
         return p.subtract(this.position).normalize();
@@ -100,5 +106,10 @@ public class PointLight extends Light implements LightSource {
     @Override
     public double getDistance(Point point) {
         return point.distance(position);
+    }
+
+    @Override
+    public TargetArea getTargetArea() {
+        return targetArea;
     }
 }
