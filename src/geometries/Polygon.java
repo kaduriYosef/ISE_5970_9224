@@ -125,5 +125,22 @@ public class Polygon extends Geometry {
         return List.of(new GeoPoint(this, intersectionPoint));
     }
 
+    @Override
+    public void calcBoundingBox() {
+        double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
+        for (Point p : vertices) {
+            if (p.getX() < minX) minX = p.getX();
+            if (p.getY() < minY) minY = p.getY();
+            if (p.getZ() < minZ) minZ = p.getZ();
+            if (p.getX() > maxX) maxX = p.getX();
+            if (p.getY() > maxY) maxY = p.getY();
+            if (p.getZ() > maxZ) maxZ = p.getZ();
+        }
 
+        this.boundingBox = new BoundingBox(
+                new Point(minX, minY, minZ),
+                new Point(maxX, maxY, maxZ)
+        );
+    }
 }

@@ -12,6 +12,11 @@ import java.util.Objects;
 public abstract class Intersectable {
 
     /**
+     * The bounding box of the geometry
+     */
+    protected BoundingBox boundingBox;
+
+    /**
      * The geometry that was hit.
      */
     public static class GeoPoint {
@@ -76,6 +81,8 @@ public abstract class Intersectable {
      * @return a list of GeoPoints representing the intersections
      */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        if (boundingBox != null && !boundingBox.hasIntersections(ray))
+            return null;
         return findGeoIntersectionsHelper(ray);
     }
 
@@ -86,5 +93,11 @@ public abstract class Intersectable {
      * @return a list of geo points representing the intersections
      */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+
+    /**
+     * Calculate the bounding box of this intersectable.
+     */
+    public abstract void calcBoundingBox();
+
 }
 

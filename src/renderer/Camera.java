@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
@@ -17,16 +18,69 @@ import static primitives.Util.isZero;
  * for the view plane and the rendering mechanism.
  */
 public class Camera implements Cloneable {
+    /**
+     * Represents the position of the camera in the 3D scene.
+     */
     private Point cameraPosition;
+
+    /**
+     * Represents the right direction vector of the camera, typically pointing to the right in the camera's local coordinate system.
+     */
     private Vector vRight;
+
+    /**
+     * Represents the up direction vector of the camera, typically pointing upwards in the camera's local coordinate system.
+     */
     private Vector vUp;
+
+    /**
+     * Represents the forward direction vector of the camera, typically pointing in the direction the camera is facing.
+     */
     private Vector vTo;
+
+    /**
+     * Represents the height of the view plane or the screen that the camera is looking at.
+     */
     private double height = 0.0;
+
+    /**
+     * Represents the width of the view plane or the screen that the camera is looking at.
+     */
     private double width = 0.0;
+
+    /**
+     * Represents the distance from the camera to the view plane.
+     */
     private double distance = 0.0;
+
+    /**
+     * Responsible for writing the image to an output file. It handles the creation of the image file from the pixel data.
+     */
     private ImageWriter imageWriter;
+
+    /**
+     * Responsible for tracing rays from the camera through the pixels on the view plane and determining the color of each pixel.
+     */
     private RayTracerBase rayTracer;
+
+    /**
+     * Represents the center point of the view plane in the 3D scene, relative to the camera's position and orientation.
+     */
     private Point pCenter;
+
+    /**
+     * Pixel manager for supporting:
+     * <ul>
+     * <li>multi-threading</li>
+     * <li>debug print of progress percentage in Console window/tab</li>
+     * </ul>
+     */
+    private PixelManager pixelManager;
+
+    /**
+     * Number of threads to use for rendering
+     */
+    private int threadsCount = 0;
 
     /**
      * Builder class for constructing a Camera instance.
@@ -111,6 +165,19 @@ public class Camera implements Cloneable {
          */
         public Builder setImageWriter(ImageWriter imageWriter) {
             camera.imageWriter = imageWriter;
+            return this;
+        }
+
+        /**
+         * Set the number of threads to use for rendering
+         *
+         * @param threadsCount the number of threads to use for rendering
+         * @return the camera builder
+         */
+        public Builder setMultithreading(int threadsCount) {
+            if (camera.threadsCount < 0)
+                throw new MissingResourceException("threads count can't be smaller than 0", "Camera", "");
+            camera.threadsCount = threadsCount;
             return this;
         }
 
@@ -271,12 +338,38 @@ public class Camera implements Cloneable {
     /**
      * Renders the image by casting rays through each pixel.
      */
-    public void renderImage() {
-        for (int row = 0; row < imageWriter.getNy(); ++row)
-            for (int col = 0; col < imageWriter.getNx(); ++col) {
-                castRay(imageWriter.getNx(), imageWriter.getNy(), col, row);
+    public Camera renderImage() {
+        final int nx = imageWriter.getNx(), ny = imageWriter.getNy();
+        pixelManager = new PixelManager(ny, nx);
+
+        if (threadsCount == 0)
+            for (int i = 0; i < ny; i++) {
+                for (int j = 0; j < nx; j++) {
+                    castRay(nx, ny, j, i);
+                }
             }
+        else { // option 2
+            var threads = new LinkedList<Thread>(); // list of threads
+            while (threadsCount-- > 0) // add appropriate number of threads
+                threads.add(new Thread(() -> { // add a thread with its code
+                    PixelManager.Pixel pixel; // current pixel(row,col)
+                    // allocate pixel(row,col) in loop until there are no more pixels
+                    while ((pixel = pixelManager.nextPixel()) != null)
+                        // cast ray through pixel (and color it – inside castRay)
+                        castRay(nx, ny, pixel.col(), pixel.row());
+                }));
+            // start all the threads
+            for (var thread : threads) thread.start();
+            // wait until all the threads have finished
+            try {
+                for (var thread : threads) thread.join();
+            } catch (InterruptedException ignore) {
+            }
+        }
+
+        return this;
     }
+
 
     /**
      * Casts a ray through a specific pixel and writes the resulting color.

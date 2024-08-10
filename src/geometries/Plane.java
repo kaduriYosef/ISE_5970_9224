@@ -90,4 +90,8 @@ public class Plane extends Geometry {
         // Return the intersection point or null if no intersection exists.
         return result;
     }
+
+    @Override
+    public void calcBoundingBox() {
+    }
 }

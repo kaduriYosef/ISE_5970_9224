@@ -143,11 +143,11 @@ public class ReflectionRefractionTests {
          * - KT: 0.3 (30% of light is transmitted through the ball - some transparency)
          */
         Material ballMaterial1 = new Material()
-                .setKD(0.5)
+                .setKD(0.8)
                 .setKS(0.5)
                 .setShininess(50)
                 .setKR(new Double3(0))
-                .setKT(0.9);
+                .setKT(0.5);
 
         /*
          * Material for the second ball, similar to the first but less transparent.
@@ -158,11 +158,11 @@ public class ReflectionRefractionTests {
          * - KT: 0.1 (10% of light transmitted)
          */
         Material ballMaterial2 = new Material()
-                .setKD(0.5)
+                .setKD(0.8)
                 .setKS(0.5)
                 .setShininess(50)
                 .setKR(new Double3(0))
-                .setKT(0.9);
+                .setKT(0.5);
 
         // ----- Scene Construction -----
         /*
@@ -178,10 +178,8 @@ public class ReflectionRefractionTests {
                         new Point(-100, -20, -100))
                         .setMaterial(tableMaterial),
                 new Sphere(new Point(0, -10, -30), 10) // larger ball
-                        .setEmission(new Color(0, 191, 255))  // Cyan emission
                         .setMaterial(ballMaterial1),
                 new Sphere(new Point(0, 5, -30), 5) // Smaller ball
-                        .setEmission(new Color(0, 191, 255)) // Cyan emission
                         .setMaterial(ballMaterial2)
         );
 
@@ -193,17 +191,17 @@ public class ReflectionRefractionTests {
         scene.lights.add(
                 new SpotLight(new Color(255, 153, 51), new Point(-100, 50, 0), new Vector(100, -70, -50))
                         .setKl(0.0001)
-                        .setKq(0.000005)
+                        .setKq(0.000005).setTargetArea(5,17)
         );
         scene.lights.add(
                 new SpotLight(new Color(51, 255, 153), new Point(100, 50, 0), new Vector(-100, -70, -50))
                         .setKl(0.0001)
-                        .setKq(0.000005)
+                        .setKq(0.000005).setTargetArea(5,17)
         );
         scene.lights.add(
                 new SpotLight(new Color(153, 51, 255), new Point(0, 75, 100), new Vector(0, -95, -150))
                         .setKl(0.0001)
-                        .setKq(0.000005)
+                        .setKq(0.000005).setTargetArea(5,17)
         );
 
 

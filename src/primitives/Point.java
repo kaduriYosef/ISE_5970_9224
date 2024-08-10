@@ -29,6 +29,34 @@ public class Point {
     }
 
     /**
+     * get the x value of the point
+     *
+     * @return the x value of the point
+     */
+    public double getX() {
+        return xyz.d1;
+    }
+
+    /**
+     * get the y value of the point
+     *
+     * @return the y value of the point
+     */
+    public double getY() {
+        return xyz.d2;
+    }
+
+    /**
+     * get the z value of the point
+     *
+     * @return the z value of the point
+     */
+    public double getZ() {
+        return xyz.d3;
+    }
+
+
+    /**
      * Determines whether this Point object is equal to another object.
      * Two Point objects are considered equal if they have the same coordinates.
      *

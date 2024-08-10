@@ -134,5 +134,4 @@ public class ShadowTests {
         cam.renderImage();
         cam.writeToImage();
     }
-
 }

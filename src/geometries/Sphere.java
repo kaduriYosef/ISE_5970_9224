@@ -75,5 +75,13 @@ public class Sphere extends RadialGeometry {
                     ray.getHead().add(ray.getDir().scale(t2))));
         }
     }
+
+    @Override
+    public void calcBoundingBox() {
+        this.boundingBox = new BoundingBox(
+                new Point(center.getX() - radius, center.getY() - radius, center.getZ() - radius),
+                new Point(center.getX() + radius, center.getY() + radius, center.getZ() + radius)
+        );
+    }
 }
 
