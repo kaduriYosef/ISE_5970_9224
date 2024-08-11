@@ -59,7 +59,8 @@ public class BoundingBox {
             double t2 = (boxMaxX - headX) / dirX;
             tMin = Math.max(tMin, Math.min(t1, t2));
             tMax = Math.min(tMax, Math.max(t1, t2));
-        } else if (headX <= boxMinX || headX >= boxMaxX) {
+        }
+        else if (headX <= boxMinX || headX >= boxMaxX) {
             return false;
         }
 
@@ -68,7 +69,8 @@ public class BoundingBox {
             double t2 = (boxMaxY - headY) / dirY;
             tMin = Math.max(tMin, Math.min(t1, t2));
             tMax = Math.min(tMax, Math.max(t1, t2));
-        } else if (headY <= boxMinY || headY >= boxMaxY) {
+        }
+        else if (headY <= boxMinY || headY >= boxMaxY) {
             return false;
         }
 
@@ -77,7 +79,8 @@ public class BoundingBox {
             double t2 = (boxMaxZ - headZ) / dirZ;
             tMin = Math.max(tMin, Math.min(t1, t2));
             tMax = Math.min(tMax, Math.max(t1, t2));
-        } else if (headZ <= boxMinZ || headZ >= boxMaxZ) {
+        }
+        else if (headZ <= boxMinZ || headZ >= boxMaxZ) {
             return false;
         }
 

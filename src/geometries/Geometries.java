@@ -76,7 +76,8 @@ public class Geometries extends Intersectable {
     public void calcBoundingBox() {
         if (intersectables.isEmpty()) {
             boundingBox = null;
-        } else {
+        }
+        else {
             boundingBox = new BoundingBox();
             for (Intersectable g : intersectables) {
                 g.calcBoundingBox();
@@ -98,7 +99,7 @@ public class Geometries extends Intersectable {
      */
     public void makeBVH() {
         // calculate the bounding box for the geometries so we can sort them
-        calcBoundingBox();
+        makeCBR();
 
         // extract infinite geometries into a separate list
         List<Intersectable> infiniteGeometries = intersectables.stream().filter(g -> g.boundingBox == null).toList();
